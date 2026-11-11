@@ -10,7 +10,13 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
 
 [<img src="https://img.youtube.com/vi/U3yrNprBXRI/sddefault.jpg" width="480">](https://youtu.be/U3yrNprBXRI)
 
-<i>이미지를 클릭하면 유튜브로 연결됩니다.</i>
+<i>
+이미지를 클릭하면 유튜브로 연결됩니다.
+
+서버와 클라이언트 패키징 후, 
+서버는 AWS에서 구동하고 두 PC에서 플레이했습니다. 
+
+</i>
 
 #### 게임 흐름
 1. 로비 화면 - 캐릭터 선택 후 게임 입장
