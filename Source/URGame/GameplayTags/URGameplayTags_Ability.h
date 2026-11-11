@@ -1,0 +1,36 @@
+// Written by EXPx2
+
+#pragma once
+
+#include "NativeGameplayTags.h"
+
+namespace URGameplayTags
+{
+	// ========== Common ==========
+	URGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Common_Attack)
+	
+	// ========== Test ==========
+	URGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability);
+	URGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Active);
+	URGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Active_Ability1);
+	URGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Active_Ability1_1);
+	URGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Active_Ability1_2);
+	URGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Active_Ability1_3);
+	
+	URGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Active_Ability2);
+	URGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Active_Ability3);
+	URGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Active_Ability4);
+	URGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Active_Ability5);
+	
+	URGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Ability_Condition);
+	
+	URGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Ability_Condition_Chain_Ability1_2);
+	URGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Ability_Condition_Chain_Ability1_3);
+	
+	URGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Ability_Condition_Cooldown);
+	URGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Ability_Condition_Cooldown_Ability1);
+	URGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Ability_Condition_Cooldown_Ability2);
+	URGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Ability_Condition_Cooldown_Ability3);
+	URGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Ability_Condition_Cooldown_Ability4);
+	URGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Ability_Condition_Cooldown_Ability5);
+}
