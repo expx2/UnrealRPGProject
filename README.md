@@ -37,13 +37,13 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
 ### 캐릭터
 
 - 플레이어 캐릭터: Enhanced Input, PlayerState에서의 AbilitySystemComponent 관리 [상세 문서](https://github.com/expx2/UnrealRPGProject/blob/main/Docs/Player.md)
-- 적 캐릭터: AI 행동 트리, 어그로 관리
+- 적 캐릭터: [AI 행동 트리](https://github.com/user-attachments/assets/198ca6ce-403c-4615-b2a5-3fb3214c9fe3), 어그로 관리
 - Template 사용 AnimBP
 
 ### 게임 플레이
 
-- 레벨 시퀀스
 - 타 플레이어 관전 및 전멸 시 리스폰 [`AURGameGameMode`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/GameModes/URGameGameMode.h) [`AURGameGameState`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/GameStates/URGameGameState.h)
+- 레벨 시퀀스
 
 ### UMG
 
@@ -51,6 +51,10 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
 - WidgetComponent [`UURActorDisplayWidgetComponent`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/UI/ActorDisplay/URActorDisplayWidgetComponent.h)
 - 대미지 플로터 풀링 [`UURFloatingDamageLayerWidget`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/UI/FloatingDamage/URFloatingDamageLayerWidget.h)
 - BP/C++ 구현
+
+### MISC
+
+- 우선순위 기반 상태 제어 템플릿 [`URValueByStateResolver`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Helpers/URValueByStateResolver.h)
 
 ## 포스트모템
 
@@ -68,4 +72,4 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
 
 부족한 점
 - 서버/클라 환경에서의 콘텐츠 개발 경험은 쌓지 못했습니다.
-- 언리얼에서 제공하는 다른 시스템을 많이 사용해보지 못한 것이 아쉽습니다.
+- 언리얼에서 제공하는 다른 시스템을 많이 사용해보지 못했습니다.
