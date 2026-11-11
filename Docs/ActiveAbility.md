@@ -30,7 +30,7 @@ BP에서 데이터를 조합하여 다양한 어빌리티를 만들어 낼 수 �
 
 ### 활성화 흐름
 
-1. `ResolveCurrentAbilityForInput()` 입력에 바인딩된 어빌리티 중 현재 사용할 어빌리티를 선택한다. ([`Player.md - 어빌리티 선택`](https://github.com/expx2/UnrealRPGProject/blob/main/Docs/Player.md#어빌리티-선택))
+1. `UURAbilitySystemComponent::ResolveCurrentAbilityForInput` 입력에 바인딩된 어빌리티 중 현재 사용할 어빌리티를 선택한다. ([`Player.md - 어빌리티 선택`](https://github.com/expx2/UnrealRPGProject/blob/main/Docs/Player.md#어빌리티-선택))
 2. `AURGamePlayerController`가 유효한 타겟을 선택한다.
 3. 정책에 따라 타겟이 멀면 자동 이동하며 사용을 대기한다.
 4. 타겟 정보를 `FGameplayEventData`에 담아 어빌리티를 Trigger한다.
