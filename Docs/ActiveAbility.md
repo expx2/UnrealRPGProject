@@ -30,13 +30,13 @@ BP에서 데이터를 조합하여 다양한 스킬을 만들어 낼 수 있는 
 
 ### 활성화 흐름
 
-1. [`UURAbilitySystemComponent::ResolveCurrentAbilityForInput`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/AbilitySystem/URAbilitySystemComponent.cpp#L233)가 입력에 바인딩된 어빌리티 중 현재 사용할 어빌리티를 선택한다. ([`선택 방법에 대한 문서`](https://github.com/expx2/UnrealRPGProject/blob/main/Docs/Player.md#어빌리티-선택))
-2. [`AURGamePlayerController`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Player/URGamePlayerController.h)가 유효한 타겟을 선택한다.
+1. `ResolveCurrentAbilityForInput()` 입력에 바인딩된 어빌리티 중 현재 사용할 어빌리티를 선택한다. ([`Player.md - 어빌리티 선택`](https://github.com/expx2/UnrealRPGProject/blob/main/Docs/Player.md#어빌리티-선택))
+2. `AURGamePlayerController`가 유효한 타겟을 선택한다.
 3. 정책에 따라 타겟이 멀면 자동 이동하며 사용을 대기한다.
-4. 타겟 정보를 FGameplayEventData에 담아 어빌리티를 Trigger한다.
+4. 타겟 정보를 `FGameplayEventData`에 담아 어빌리티를 Trigger한다.
 5. 어빌리티가 활성화된 후 한번 더 타겟 유효성을 검사한 뒤 정책에 따라 유효하지 않으면 종료한다.
 
-AbilitySystemComponent에서 바로 사용하지 않고 [`AURGamePlayerController`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Player/URGamePlayerController.h)를 거치는 이유는 타겟을 선정하는 작업과 일부 정책에서 사용되는 자동 이동 후 사용 작업을 수행하기 위함이다.
+`AbilitySystemComponent`에서 바로 활성화하지 않고 `AURGamePlayerController`를 거치는 이유는 타겟을 선정하는 작업과 일부 정책에서 사용되는 자동 이동 후 사용 작업을 수행하기 위함이다.
 
 > 초기엔 어빌리티 활성화 후 어빌리티 내부에서 실행 단계를 나눠 타겟 지정과 자동 이동을 진행했지만,
 > 실제 스킬 사용 전에도 어빌리티가 활성화 된 상태라 활성화 태그 부여, 다른 어빌리티 활성화 차단 및 취소 등의 동작이 실행되고 이는 시스템의 의도와 맞지 않는 부분이 있어,
@@ -49,13 +49,13 @@ AbilitySystemComponent에서 바로 사용하지 않고 [`AURGamePlayerControlle
 
 예외적으로 타겟팅 정책이 `Targeting`일 경우 첫 번 째 후보가 유효하지 않을 경우 후순위 후보 검사 없이 사용에 실패한다. (`아이온2` 참고함)
 
-- 현재 구현에선 [`UURTargetingComponent`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Character/URTargetingComponent.h)의 `MainTarget`, `AimTarget`을 사용한다.
+- 현재 구현에선 `UURTargetingComponent`의 `MainTarget`, `AimTarget`을 사용한다.
 
 ## 액션
 
 액션은 스킬의 동작과 효과를 구성하는 데이터가 되는 구조이다. 
 
-TInstancedStruct를 사용해 [`FURAbilityActionBase`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Combat/AbilityAction/URAbilityActionBase.h)를 BP에서 조합해 하나의 스킬을 구성한다.
+모든 액션은 `FURAbilityActionBase`를 상속받으며 `TInstancedStruct`로 BP에서 조합해 하나의 스킬을 구성한다.
 
 이 시스템을 통해 확장성과 재사용성을 높이고 빠른 테스트 및 개발이 가능하도록 했다. 
 
@@ -63,9 +63,9 @@ TInstancedStruct를 사용해 [`FURAbilityActionBase`](https://github.com/expx2/
 
 어빌리티는 [`UAbilityTask_AbilityActionTimeline`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/AbilitySystem/AbilityTask/AbilityTask_AbilityActionTimeline.h) 어빌리티 태스크를 실행한다.
 
-[`UAbilityTask_AbilityActionTimeline`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/AbilitySystem/AbilityTask/AbilityTask_AbilityActionTimeline.h)은 각 [`FURAbilityActionBase`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Combat/AbilityAction/URAbilityActionBase.h)를 설정된 시작 시간에 맞춰 병렬적으로 실행한다.
+`UAbilityTask_AbilityActionTimeline`은 조합한 액션을 설정된 시작 시간에 맞춰 병렬적으로 실행한다.
 
-[`FURAbilityActionBase`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Combat/AbilityAction/URAbilityActionBase.h)는 실행 결과를 반환하고 비동기 액션은 [`AbilityActionTask`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/AbilitySystem/AbilityTask/AbilityActionTask/AbilityActionTask.h)를 함께 반환한다. 타임라인은 이 결과와 태스크를 통해 액션의 진행 상태를 관리한다.
+`FURAbilityActionBase`는 실행 결과를 반환하고 비동기 액션은 `UAbilityActionTask`를 함께 반환한다. 타임라인은 이 결과와 태스크를 통해 액션의 진행 상태를 관리한다.
 
 액션 데이터와 별개로 실행 중 이동 제한 및 회전 제한 시간 Range를 가지고 이동과 회전을 제한한다. 종료 시점을 지정하지 않으면 타임라인 종료 시 해제한다.
 
@@ -74,33 +74,33 @@ TInstancedStruct를 사용해 [`FURAbilityActionBase`](https://github.com/expx2/
 ### 주요 액션
 | 액션                         | 설명                                                                 |
 |----------------------------|--------------------------------------------------------------------|
-| [`MeleeTrace`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Combat/AbilityAction/URAbilityAction_MeleeTrace.h)         | 사용자 위치에서 Trace를 진행해 GE를 부여한다. |
-| [`FindTargetAndTrace`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Combat/AbilityAction/URAbilityAction_FindTargetAndTrace.h) | 사용자 기준 일정 범위 내에 대상을 찾고, 찾은 대상 위치에서 Trace를 진행해 GE를 부여한다.            
-| [`MoveTo`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Combat/AbilityAction/URAbilityAction_MoveTo.h)             | 사용 캐릭터를 지정한 위치로 이동시킨다.                                             |
-| [`PlayMontageAndWait`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/AbilitySystem/AbilityTask/AbilityActionTask/AbilityActionTask_PlayMontageAndWait.h) | AnimMontage를 실행한다.                                                 |
+| `MeleeTrace` | 사용자 위치에서 Trace를 진행해 GE를 부여한다. |
+| `FindTargetAndTrace` | 사용자 기준 일정 범위 내에 대상을 찾고, 찾은 대상 위치에서 Trace를 진행해 GE를 부여한다.            
+| `MoveTo` | 사용 캐릭터를 지정한 위치로 이동시킨다.                                             |
+| `PlayMontageAndWait` | AnimMontage를 실행한다.                                                 |
 
-> [`MeleeTrace`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Combat/AbilityAction/URAbilityAction_MeleeTrace.h) 같이 전투의 핵심이 되는 액션은 클라이언트와 서버에서 모두 진행되지만, 대상 검출과 GE 부여 같은 핵심 동작은 서버에서만 수행한다. 
+> 모든 액션은 클라이언트와 서버에서 모두 실행되지만, 대상 검출과 GE 부여 같은 핵심 동작은 Authority있는 서버에서만 수행하도록 제한한다.
 
 ---
 
 ## 네트워크 지연과 프레임 지연 보정
 
-[`UURGameplayAbility_ActiveAbility`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/AbilitySystem/GameplayAbility/URGameplayAbility_ActiveAbility.h)는 LocalPredicted 정책을 사용한다. 
+`UURGameplayAbility_ActiveAbility`는 LocalPredicted 정책을 사용한다. 
 
 반응성을 위해 클라이언트는 서버의 응답을 기다리지 않고 액션 타임라인을 시작하며, **실행 시점의 서버 시간을 전송**한다.
 
 서버는 클라이언트가 보낸 시작 시간을 받아 액션 타임라인의 경과 시간을 보정해 시작한다.
 
 > 이는 클라이언트에 맞춰 서버를 보정하는 방법으로 신뢰성은 비교적 떨어질 수 있지만 플레이 감각을 위하여 이 방식을 택했다.
-> 다만 클라이언트가 보낸 시간을 그대로 신뢰하지 않고 평균 RTT와 비교하거나 최대 지연 시간을 제한하는 작업을 거쳐 보정 시간을 구하는 식으로 보완한다.
+> 다만 **클라이언트가 보낸 시간을 그대로 신뢰하지 않고 평균 RTT와 비교하거나 최대 지연 시간을 제한하는 작업을 거쳐 보정 시간을 구하는 식으로 보완**한다.
 
 타임라인은 각 액션의 시작 시간에 맞춰 액션을 실행하지만, 네트워크 지연과 프레임 지연 등으로 액션의 실행 시간이 늦어질 수 있다. 액션 실행 시 경과 시간을 각 액션에 전달하고, 각 액션은 데이터 상의 시작 시간과 비교해 고유의 방식으로 보정한다.
 
 ### 보정 예시
 | 액션                         | 설명                                                         |
 |----------------------------|------------------------------------------------------------|
-| [`MeleeTrace`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Combat/AbilityAction/URAbilityAction_MeleeTrace.h)         | 밀린 타격 회차를 한 프레임에 처리한다                                      |
-| [`PlayMontageAndWait`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/AbilitySystem/AbilityTask/AbilityActionTask/AbilityActionTask_PlayMontageAndWait.h) | 정책에 따라 AnimMontage의 실행 속도를 조절하거나, 시작 시간을 설정해 중간 부분부터 실행한다. |
+| `MeleeTrace` | 밀린 타격 회차를 한 프레임에 처리한다                                      |
+| `PlayMontageAndWait` | 정책에 따라 AnimMontage의 실행 속도를 조절하거나, 시작 시간을 설정해 중간 부분부터 실행한다. |
 
 <img src="https://github.com/user-attachments/assets/9241316f-ebf9-4283-85f3-b6b3fb20fb5b" width="600"/>
 
