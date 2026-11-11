@@ -1,41 +1,39 @@
 # 전투 시스템
 
-전투 시스템은 [액티브 어빌리티](링크)의 [액션](링크)에서 전달한 정보를 바탕으로
+전투 시스템은 [액티브 어빌리티](https://github.com/expx2/UnrealRPGProject/blob/main/Docs/ActiveAbility.md)의 [액션](https://github.com/expx2/UnrealRPGProject/blob/main/Docs/ActiveAbility.md#액션)에서 전달한 정보를 바탕으로
 대상 검출 → 효과 적용 → 피해 계산 → 피격 처리의 흐름을 가진다.
 
 범위 검사는 [`UURCollisionBlueprintLibrary`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/BlueprintLibrary/URCollisionBlueprintLibrary.h), 대상 선정 및 효과 적용은 [`UURCombatBlueprintLibrary`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/BlueprintLibrary/URCombatBlueprintLibrary.h)에 분리하여 재사용성과 유지보수성을 높였다.
 
-실제 타격 판정과 피해 효과 적용은 항상 **Authority가 있는 서버**에서 진행하며,
+실제 타격 판정과 피해 효과 적용은 항상 **Authority가 있는 서버**에서 진행하며, 
 클라이언트는 복제된 체력과 GameplayCue, 클라이언트 RPC를 통해 결과를 표시한다.
 
-지연 보정은 [`ActiveAbility`](링크) 문서에서 다룬다
-
----
+지연 보정은 [`ActiveAbility`](https://github.com/expx2/UnrealRPGProject/blob/main/Docs/ActiveAbility.md#네트워크-지연과-프레임-지연-보정) 문서에서 다룬다
 
 ## Damageable Interface
 
 [`IURDamageableInterface`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Interface/URDamageableInterface.h) 인터페이스를 구현한 액터만을 전투 및 타격 대상으로 사용한다.
 
-AbilitySystemComponent를 가지고 있는 액터에겐 GameplayEffect를 통해 타격을 진행하고,
+AbilitySystemComponent를 가지고 있는 액터에겐 GameplayEffect를 통해 타격을 진행하고, 
 프랍과 같이 AbilitySystemComponent가 없는 액터는 [`IURDamageableInterface::NativeTakeDamage`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Interface/URDamageableInterface.h#L35)를 구현해 피격 처리를 진행한다.
 
-진영을 나타내는 [`EURFaction`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Definitions/URFaction.h)을 가지며,
+진영을 나타내는 [`EURFaction`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Definitions/URFaction.h)을 가지며, 
 스킬 사용 시 대상 진영은 [`UURCombatBlueprintLibrary::GetRelativeTargetFaction`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/BlueprintLibrary/URCombatBlueprintLibrary.cpp#L20)을 통해 공격자 기준으로 해석한다.
->현재 구현은 공격자가 `Enemy`일 때, `Ally`와 `Enemy`를 서로 바꿔, 적 캐릭터의 공격 스킬도 대상을 `Enemy`로 설정하도록 해 사용성을 높였다.
+>현재 구현은 공격자가 `Enemy`일 때, `Ally`와 `Enemy`를 서로 바꿔, 적 캐릭터의 공격 스킬도 대상을 `Enemy`로 설정하도록 해 사용성을 높였다. 
 
 ## Hit Detection
 
 언리얼에서 제공하는 충돌 쿼리와 함께 추가 조건 검사를 통해 원, 부채꼴, 도넛, 도넛 부채꼴, 사각형의 범위 검사를 제공한다.
 
-범위 데이터는 [`FURColliderShape`](링크) 를 기반으로 하며 사용처에서 TInstancedStruct로 모양과 값을 설정한다.
+범위 데이터는 [`FURColliderShape`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Collisions/URColliderShape.h) 를 기반으로 하며 사용처에서 TInstancedStruct로 모양과 값을 설정한다.
 
 ### 범위 검사 방법
 
 먼저 OverlapMultiByChannel로 범위 주변의 후보를 얻고, 각 모양에 필요한 추가 조건을 검사한다.
 
-충돌 쿼리와 마찬가지로 캐릭터의 원점 뿐만 아니라 캡슐이 범위에 걸쳐 있으면 포함하도록 하여 일관성을 유지한다.
+충돌 쿼리와 마찬가지로 캐릭터의 원점 뿐만 아니라 캡슐이 범위에 걸쳐 있으면 포함하도록 하여 일관성을 유지한다. 
 
-[`UURCollisionBlueprintLibrary::GetDamageableActors`](링크)
+[`UURCollisionBlueprintLibrary::GetDamageableActors`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/BlueprintLibrary/URCollisionBlueprintLibrary.cpp#L152)
 
 |모양| 추가 검사                             |
 |--|-----------------------------------|
@@ -62,15 +60,13 @@ OverlapMultiByChannel에서 사각형을 제외한 모양들은 1차적으로 Ra
 
 </center>
 
----
-
 ## 타격 대상 수 제한과 우선순위
 
 범위형 스킬에는 최대 타격 대상 수를 지정할 수 있다.
 
 검출된 대상이 최대 대상 수보다 많을 경우 우선순위를 두어 처리한다.
 
-[`UURCombatBlueprintLibrary::ResolveTargets`](링크)
+[`UURCombatBlueprintLibrary::ResolveTargets`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/BlueprintLibrary/URCombatBlueprintLibrary.cpp#L52)
 
 | 우선순위 | 대상 | 의도                           |
 |---|---|------------------------------|
@@ -80,11 +76,9 @@ OverlapMultiByChannel에서 사각형을 제외한 모양들은 1차적으로 Ra
 
 > 우선권이 있어도 현재 회차의 범위 검사에 검출되어야 타격한다.
 
----
-
 ## 타격 효과 적용
 
-액티브 스킬의 [액션](링크)에서 [`FURHitEffect`](링크) 배열을 통해 대미지를 포함한 다른 부가 효과를 지정한다.
+액티브 스킬의 [액션](https://github.com/expx2/UnrealRPGProject/blob/main/Docs/ActiveAbility.md#액션)에서 [`FURHitEffect`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Combat/URHitEffect.h) 배열을 통해 대미지를 포함한 다른 부가 효과를 지정한다.
 
 SetByCaller를 통해 필요한 값을 전달해 하나의 구조로 다양한 값을 지정 가능하게 한다.
 
@@ -96,13 +90,13 @@ SetByCaller를 통해 필요한 값을 전달해 하나의 구조로 다양한 �
 
 </center>
 
-검출된 대상에 대한 효과 적용은 [`UURCombatBlueprintLibrary::Hit`](링크)를 공통 진입점으로 사용한다.
+검출된 대상에 대한 효과 적용은 [`UURCombatBlueprintLibrary::Hit`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/BlueprintLibrary/URCombatBlueprintLibrary.cpp#L167)를 공통 진입점으로 사용한다.
 
 ### AbilitySystemComponent가 있는 대상
 
-[`FURHitEffect`](링크)에서 지정한 SetByCaller값을 담아 GameplayEffect를 적용한다.
+[`FURHitEffect`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Combat/URHitEffect.h)에서 지정한 SetByCaller값을 담아 GameplayEffect를 적용한다.
 
-[`FURHitGameplayEffectContext`](링크)는 기본 Context를 확장해 치명타 여부와 피격 Cue 태그를 전달한다.
+[`FURHitGameplayEffectContext`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/AbilitySystem/GameplayEffect/URHitGameplayEffectContext.h)는 기본 Context를 확장해 치명타 여부와 피격 Cue 태그를 전달한다.
 
 원본 Context를 복제하여 크리티컬 여부와 같이 각 대상마다 개별로 기록되어야 할 값이 공유되지 않도록 했다.
 
@@ -112,36 +106,34 @@ SetByCaller를 통해 필요한 값을 전달해 하나의 구조로 다양한 �
 
 ### AbilitySystemComponent가 없는 대상
 
-프랍처럼 AbilitySystemComponent가 없는 대상도 [`IURDamageableInterface`](링크)를 구현하면 타격할 수 있다.
+프랍처럼 AbilitySystemComponent가 없는 대상도 [`IURDamageableInterface`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Interface/URDamageableInterface.h)를 구현하면 타격할 수 있다.
 
-이 경우 대미지를 주는 [`UGameplayEffect_Damage`](링크)가 아니면 건너뛰고, [`IURDamageableInterface::NativeTakeDamage`](링크)로 대미지를 전달한다.
-
----
+이 경우 대미지를 주는 [`UGameplayEffect_Damage`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/AbilitySystem/GameplayEffect/GameplayEffect_Damage.h)가 아니면 건너뛰고, [`IURDamageableInterface::NativeTakeDamage`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Interface/URDamageableInterface.cpp#L18)로 대미지를 전달한다.
 
 ## 피해 계산
 
-대미지 전달은 [`UGameplayEffect_Damage`](링크)를 통해 전달하며, `CalculationClass`에 [`UURDamageExecutionCalculation`](링크)을 지정해 피해량을 계산한다.
+대미지 전달은 [`UGameplayEffect_Damage`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/AbilitySystem/GameplayEffect/GameplayEffect_Damage.h)를 통해 전달하며, `CalculationClass`에 [`UURDamageExecutionCalculation`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/AbilitySystem/GameplayEffect/Calculation/URDamageExecutionCalculation.h)을 지정해 피해량을 계산한다.
 
 공격의 대미지 계수는 `SetByCaller.DamageMultiplier`로 전달한다. 따라서 공격은 계수와 효과 데이터만 설정하고, 공격력 및 치명타, 방어력 계산은 공통 계산식을 사용한다.
 
-계산 결과는 체력에 직접 쓰지 않고, [`UURHealthSet`](링크)의 메타 어트리뷰트 `DamageTaken`에 더해 체력 반영 단계로 전달한다.
+계산 결과는 체력에 직접 쓰지 않고, [`UURHealthSet`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/AbilitySystem/AttributeSet/URHealthSet.h)의 메타 어트리뷰트 `DamageTaken`에 더해 체력 반영 단계로 전달한다.
 
 ### 계산에 사용하는 값
 
 | 값                       | 출처                        | 역할                  |
 |-------------------------|---------------------------|---------------------|
-| `AttackPower`           | 공격자의 [`UURCombatSet`](링크) | 기본 공격력              |
-| `AdditionalAttackPower` | 공격자의 [`UURCombatSet`](링크) | 무작위로 더할 추가 공격력의 상한  |
-| `CriticalRate`          | 공격자의 [`UURCombatSet`](링크) | 치명타 확률              |
-| `CriticalDamage`        | 공격자의 [`UURCombatSet`](링크) | 치명타 발생 시 공격력에 곱할 배율 |
-| `Defense`               | 대상의 [`UURCombatSet`](링크)  | 대미지에서 차감할 방어력       |
+| `AttackPower`           | 공격자의 [`UURCombatSet`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/AbilitySystem/AttributeSet/URCombatSet.h) | 기본 공격력              |
+| `AdditionalAttackPower` | 공격자의 [`UURCombatSet`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/AbilitySystem/AttributeSet/URCombatSet.h) | 무작위로 더할 추가 공격력의 상한  |
+| `CriticalRate`          | 공격자의 [`UURCombatSet`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/AbilitySystem/AttributeSet/URCombatSet.h) | 치명타 확률              |
+| `CriticalDamage`        | 공격자의 [`UURCombatSet`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/AbilitySystem/AttributeSet/URCombatSet.h) | 치명타 발생 시 공격력에 곱할 배율 |
+| `Defense`               | 대상의 [`UURCombatSet`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/AbilitySystem/AttributeSet/URCombatSet.h)  | 대미지에서 차감할 방어력       |
 | `DamageMultiplier`      | GE의 `SetByCaller`         | 공격의 대미지 계수. 미지정 시 1 |
 
 ### 계산 식
 
 (공격력 + Random(0, 추가 공격력)) * 치명타 배율 * 대미지 계수 - 대상의 방어력
 
-> 치명타 여부는 [`FURHitGameplayEffectContext`](링크)에 기록하여 이후, 피격 피드백에서 사용하도록 한다.
+> 치명타 여부는 [`FURHitGameplayEffectContext`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/AbilitySystem/GameplayEffect/URHitGameplayEffectContext.h)에 기록하여 이후, 피격 피드백에서 사용하도록 한다.
 
 ---
 
@@ -151,10 +143,10 @@ SetByCaller를 통해 필요한 값을 전달해 하나의 구조로 다양한 �
 
 ### 체력 반영
 
-Lyra 프로젝트를 참고하여 체력 수치를 관리하는 [`UURHealthSet`](링크)과 피격과 체력 상태 변경에 따른 이벤트를 전달하는 [`UURHealthComponent`](링크)를 분리했다.
+Lyra 프로젝트를 참고하여 체력 수치를 관리하는 [`UURHealthSet`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/AbilitySystem/AttributeSet/URHealthSet.h)과 피격과 체력 상태 변경에 따른 이벤트를 전달하는 [`UURHealthComponent`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Character/URHealthComponent.h)를 분리했다.
 
-[`UURHealthSet::PostGameplayEffectExecute`](링크) 메타 어트리뷰트인 DamageTaken 값이 변경되었을 경우 체력을 조정하고 DamageTaken 값을 초기화한다.
-이는 권한 있는 서버에서 진행되며 클라이언트에서는 변경된 체력값을 복제되어 받는다.
+[`UURHealthSet::PostGameplayEffectExecute`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/AbilitySystem/AttributeSet/URHealthSet.cpp#L44) 메타 어트리뷰트인 DamageTaken 값이 변경되었을 경우 체력을 조정하고 DamageTaken 값을 초기화한다. 
+이는 권한 있는 서버에서 진행되며 클라이언트에서는 변경된 체력값을 복제되어 받는다.  
 
 
 ### GameplayCue 피드백
@@ -163,7 +155,7 @@ Lyra 프로젝트를 참고하여 체력 수치를 관리하는 [`UURHealthSet`]
 
 ### RPC 피드백
 
-[`AURGamePlayerController::ClientDamageTakenFeedback`](링크)
+[`AURGamePlayerController::ClientDamageTakenFeedback`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Player/URGamePlayerController.cpp#L195)
 
 모든 플레이어가 아닌 로컬 플레이어가 타격/피격 했을 경우에만 발생하는 피드백을 처리하기 위해 GameplayCue가 아닌 별도의 클라이언트 RPC를 사용했다.
 
@@ -173,7 +165,7 @@ Lyra 프로젝트를 참고하여 체력 수치를 관리하는 [`UURHealthSet`]
 
 ## 서버 판정 책임
 
-타격 처리 공통 진입점인 [`UURCombatBlueprintLibrary::Hit`](링크)에선 Authority를 검사하여 권한 있는 서버에서만 진행한다.
+타격 처리 공통 진입점인 [`UURCombatBlueprintLibrary::Hit`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/BlueprintLibrary/URCombatBlueprintLibrary.cpp#L167)에선 Authority를 검사하여 권한 있는 서버에서만 진행한다.
 
 GameplayEffect는 권한 있는 서버에서만 적용한다.
 
