@@ -38,8 +38,8 @@ B의 사용 마나는 충분하더라도
 
 플레이어의 `AbilitySystemComponent`는 `PlayerState(AURGamePlayerState)`에서 관리한다.
 
-> 적 캐릭터는 캐릭터가 AbilitySystemComponent를 소유하여 캐릭터와 같은 수명을 가진다.
+> 적 캐릭터는 캐릭터가 `AbilitySystemComponent`를 소유하여 캐릭터와 같은 수명을 가진다.
 
 이를 통해 플레이어 캐릭터가 사망하여 파괴되어도, 사망 상태를 유지하고 리스폰 시에도 쿨다운 등의 상태를 유지할 수 있다.
 
-부모 클래스의 어빌리티 시스템 설정 함수 `AURASCCharacter::SetAbilitySystemComponent`를 오버라이드하여, `PlayerState`에서 `AbilitySystemComponent`를 가져와 ActorInfo를 설정한다.
+부모 클래스의 어빌리티 시스템 설정 함수 `AURASCCharacter::SetAbilitySystemComponent`를 오버라이드하여, `PlayerState`에서 `AbilitySystemComponent`를 가져와 `ActorInfo`를 설정한다.
