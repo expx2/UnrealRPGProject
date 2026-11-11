@@ -1,6 +1,6 @@
 # ProjectUR
 
-언리얼 엔진5 이용한 멀티 플레이 RPG 게임입니다.
+언리얼 엔진 5.7로 개발한 멀티 플레이 RPG 게임입니다.
 
 GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시스템을 가지고 있습니다.
 
@@ -10,7 +10,7 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
 
 [<img src="https://img.youtube.com/vi/U3yrNprBXRI/sddefault.jpg" width="480">](https://youtu.be/U3yrNprBXRI)
 
-이미지를 클릭하면 유튜브로 연결됩니다.
+<i>이미지를 클릭하면 유튜브로 연결됩니다.</i>
 
 #### 게임 흐름
 1. 로비 화면 - 캐릭터 선택 후 게임 입장
@@ -25,32 +25,31 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
 - 원, 부채꼴, 도넛, 도넛 부채꼴, 사각형 모양의 충돌 감지
 - 멀티 플레이 환경에서 서버 책임의 전투 로직과 동기화, 클라이언트 피드백
 
-[상세 문서](링크)
+[상세 문서](https://github.com/expx2/UnrealRPGProject/blob/main/Docs/Combat.md)
 
 ### GAS (Gameplay Ability System)
 
-- 데이터 기반의 액션 조합형 액티브 스킬(GameplayAbility) [상세 문서](링크)
+- 데이터 기반의 액션 조합형 액티브 스킬(GameplayAbility) [상세 문서](https://github.com/expx2/UnrealRPGProject/blob/main/Docs/ActiveAbility.md)
 - 대미지 및 상태 효과 GameplayEffect
 - Attribute를 이용한 캐릭터 스탯
 - GameplayCue를 이용한 연출
 
 ### 캐릭터
 
-- 플레이어 캐릭터: Enhanced Input, PlayerState에서의 AbilitySystemComponent 관리 [상세 문서](링크)
+- 플레이어 캐릭터: Enhanced Input, PlayerState에서의 AbilitySystemComponent 관리 [상세 문서](https://github.com/expx2/UnrealRPGProject/blob/main/Docs/Player.md)
 - 적 캐릭터: AI 행동 트리, 어그로 관리
 - Template 사용 AnimBP
-- 다양한 경로에서 요청한 회전 관리 [`TURValueByStateResolver`](링크)
 
 ### 게임 플레이
 
 - 레벨 시퀀스
-- 타 플레이어 관전 및 전멸 시 리스폰 [`AURGameGameMode`](링크) [`AURGameGameState`](링크)
+- 타 플레이어 관전 및 전멸 시 리스폰 [`AURGameGameMode`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/GameModes/URGameGameMode.h) [`AURGameGameState`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/GameStates/URGameGameState.h)
 
 ### UMG
 
-- UI 관리 LocalPlayerSubsystem [`UURUISubsystem`](링크)
-- WidgetComponent [`UURActorDisplayWidgetComponent`](링크)
-- 대미지 플로터 풀링 [`UURFloatingDamageLayerWidget`](링크)
+- UI 관리 LocalPlayerSubsystem [`UURUISubsystem`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/UI/URUISubsystem.h)
+- WidgetComponent [`UURActorDisplayWidgetComponent`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/UI/ActorDisplay/URActorDisplayWidgetComponent.h)
+- 대미지 플로터 풀링 [`UURFloatingDamageLayerWidget`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/UI/FloatingDamage/URFloatingDamageLayerWidget.h)
 - BP/C++ 구현
 
 ## 포스트모템
