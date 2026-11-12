@@ -65,7 +65,7 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
   
   - 어그로 관리
   
-    적 캐릭터는 [`URAggroComponent`](링크)를 가져서 피격 시 공격자와 어그로 수치를 기록한다.
+    적 캐릭터는 [`URAggroComponent`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Character/URAggroComponent.h)를 가져서 피격 시 공격자와 어그로 수치를 기록한다.
   
     AI 행동 트리에서 어그로 수치가 가장 높은 상대를 대상으로 액티브 스킬 활성화를 시도한다.
 
@@ -86,19 +86,19 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
 
 - UI 관리 구조
 
-  로컬 플레이어 서브 시스템 [`UURUISubsystem`](링크)를 사용해 팝업 위젯 생성/제거, 공통 UI 기능 등 UI 매니저로서의 역할을 담당한다.
+  로컬 플레이어 서브 시스템 [`UURUISubsystem`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/UI/URUISubsystem.h)를 사용해 팝업 위젯 생성/제거, 공통 UI 기능 등 UI 매니저로서의 역할을 담당한다.
 
   > UI 수가 많지 않고 팝업 연관 관계가 없어 최소한의 기능만 개발함.
 
   `RootWidget`을 두어 공통 UI(토스트 메세지 등)와 UI 레이어를 통합 관리한다.
 
-  `AHUD`를 해당 레벨의 전용 UI 매니저 역할로 사용해 공통 UI와 해당 레벨 전용 UI의 책임을 분리했다. [`AURGameHUD`](링크)
+  `AHUD`를 해당 레벨의 전용 UI 매니저 역할로 사용해 공통 UI와 해당 레벨 전용 UI의 책임을 분리했다. [`AURGameHUD`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/UI/HUD/URGameHUD.h)
 
 - 스킬 슬롯
 
-  [`UURGameHUDAbilitySlotWidget`](링크) 게임 레벨 HUD에 표시되는 스킬 슬롯
+  [`UURGameHUDAbilitySlotWidget`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/UI/HUD/URGameHUDAbilitySlotWidget.h) 게임 레벨 HUD에 표시되는 스킬 슬롯
 
-  [`어빌리티 선택`](링크)을 통해 현재 입력에 활성화 시도 할 어빌리티 정보 표시
+  [`어빌리티 선택`](https://github.com/expx2/UnrealRPGProject/blob/main/Docs/ActiveAbility.md#어빌리티-선택)을 통해 현재 입력에 활성화 시도 할 어빌리티 정보 표시
 
   쿨다운 태그를 부여하는 GE 중 가장 늦게 종료되는 GE를 구해 남은 쿨다운 시간 표시
 
@@ -139,7 +139,7 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
 
   `IURActorReceiverInterface`와 `IURActorReceiverInterface`를 사용해 설정/초기화 함수 구현
 
-  [`UURWidgetBlueprintLibrary`](링크)에서 하위 위젯으로 전달하는 함수 제공하여 위젯 설정 간소화
+  [`UURWidgetBlueprintLibrary`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/BlueprintLibrary/URWidgetBlueprintLibrary.h)에서 하위 위젯으로 전달하는 함수 제공하여 위젯 설정 간소화
 
 ## 포스트모템
 

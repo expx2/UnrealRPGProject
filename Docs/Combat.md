@@ -150,7 +150,7 @@ GE를 적용한 이후 호출되는 `UURHealthSet::PostGameplayEffectExecute`에
 
 ### RPC 피드백
 
-[`AURGamePlayerController::ClientDamageTakenFeedback`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Player/URGamePlayerController.cpp#L195)
+[`AURGamePlayerController::ClientDamageTakenFeedback`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Player/URGamePlayerController.cpp#L197)
 
 모든 플레이어가 아닌 로컬 플레이어가 타격/피격 했을 경우에만 발생하는 피드백을 처리하기 위해 GameplayCue가 아닌 별도의 클라이언트 RPC를 사용했다.
 
