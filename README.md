@@ -98,7 +98,7 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
 
   [`UURGameHUDAbilitySlotWidget`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/UI/HUD/URGameHUDAbilitySlotWidget.h) 게임 레벨 HUD에 표시되는 스킬 슬롯
 
-  [`어빌리티 선택`](https://github.com/expx2/UnrealRPGProject/blob/main/Docs/ActiveAbility.md#어빌리티-선택)을 통해 현재 입력에 활성화 시도 할 어빌리티 정보 표시
+  [`어빌리티 선택`](https://github.com/expx2/UnrealRPGProject/blob/main/Docs/ActiveAbility.md#어빌리티-선택)을 통해 현재 입력에 활성화 시도할 어빌리티 정보 표시
 
   쿨다운 태그를 부여하는 GE 중 가장 늦게 종료되는 GE를 구해 남은 쿨다운 시간 표시
 
@@ -109,7 +109,7 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
   >
   > => B가 선택되어 50%의 쿨다운 표시
 
-  연계에 필요한 태그를 부여한 GE 중 태그별로 가장 늦게 종료되는 GE를 구하고, 그 중에서 가장 먼저 종료되는 GE를 구해 연계 가능 시간 표시
+  연계에 필요한 태그를 부여한 GE 중 태그별로 가장 늦게 종료되는 GE를 구하고, 그중에서 가장 먼저 종료되는 GE를 구해 연계 가능 시간 표시
 
   > | GE | 태그 | 지속 시간 | 남은 시간 |
   > |----|----|-------|-------|
@@ -118,8 +118,8 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
   > | B  | Y  | 20    | 5     |
   > | C  | Y  | 30    | 20    |
   >
-  > X 태그를 부여하는 GE 중 가장 늦게 종료 되는 A, Y 태그를 부여하는 GE 중 가장 늦게 종료되는 C  
-  > 그 중 가장 먼저 종료되는 A  
+  > X 태그를 부여하는 GE 중 가장 늦게 종료되는 A, Y 태그를 부여하는 GE 중 가장 늦게 종료되는 C  
+  > 그중 가장 먼저 종료되는 A  
   > => A가 선택되어 25%의 연계 가능 시간 표시
   
 - WidgetComponent [`UURActorDisplayWidgetComponent`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/UI/ActorDisplay/URActorDisplayWidgetComponent.h)
@@ -137,7 +137,7 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
 
 - Receiver Interface
 
-  `IURActorReceiverInterface`와 `IURActorReceiverInterface`를 사용해 설정/초기화 함수 구현
+  `IURActorReceiverInterface`와 `IURAbilitySystemComponentReceiverInterface`를 사용해 설정/초기화 함수 구현
 
   [`UURWidgetBlueprintLibrary`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/BlueprintLibrary/URWidgetBlueprintLibrary.h)에서 하위 위젯으로 전달하는 함수 제공하여 위젯 설정 간소화
 
@@ -145,7 +145,7 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
 
 언리얼 엔진의 GAS와 네트워크 기능을 활용하여, RPG 전투에서 서버 중심의 전투 판정을 구현하는 것을 목표로 프로젝트를 진행했습니다.
 
-평소 MMORPG 게임을 즐겨하는데 조작성과 액션성이 강한 `아이온2`의 전투 시스템을 참고하여, 빠른 조작 반응성을 가진 전투 시스템을 구현했습니다.
+평소 MMORPG 게임을 즐겨 하는데 조작성과 액션성이 강한 `아이온2`의 전투 시스템을 참고하여, 빠른 조작 반응성을 가진 전투 시스템을 구현했습니다.
 
 결과적으로 서버와 클라이언트의 책임을 구분하고, 클라이언트 예측과 네트워크 지연 보정을 구현하며
 클라이언트의 반응성과 서버 판정의 신뢰성 사이에서 균형을 잡기 위한 멀티 플레이 구조 설계 방법을 익혔습니다.
@@ -160,7 +160,7 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
 
 #### 설계상 타협
 
-현재 전투 판정은 권위있는 서버에서만 진행하지만, 
+현재 전투 판정은 권위 있는 서버에서만 진행하지만, 
 빠른 조작 반응성을 위해 자동 이동과 실행 등의 일부 동작을 클라이언트 중심으로 처리하고, 
 서버에서 검증하는 방식을 택했습니다.
 

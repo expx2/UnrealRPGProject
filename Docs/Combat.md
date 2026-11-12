@@ -13,7 +13,7 @@
 [`IURDamageableInterface`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Interface/URDamageableInterface.h) 인터페이스를 구현한 액터만을 전투 및 타격 대상으로 사용한다.
 
 `AbilitySystemComponent`를 가지고 있는 액터에겐 `GameplayEffect`를 통해 타격을 진행하고, 
-프랍과 같이 `AbilitySystemComponen`t가 없는 액터는 `IURDamageableInterface::NativeTakeDamage`를 구현해 피격 처리를 진행한다.
+프랍과 같이 `AbilitySystemComponent`가 없는 액터는 `IURDamageableInterface::NativeTakeDamage`를 구현해 피격 처리를 진행한다.
 
 진영을 나타내는 `EURFaction`을 가지며, 
 스킬 사용 시 대상 진영은 `UURCombatBlueprintLibrary::GetRelativeTargetFaction`을 통해 공격자 기준으로 해석한다.
@@ -29,7 +29,7 @@
 
 먼저 OverlapMultiByChannel로 범위 주변의 후보를 얻고, 각 모양에 필요한 추가 조건을 검사한다.
 
-충돌 쿼리와 마찬가지로 캐릭터의 원점 뿐만 아니라 캡슐이 범위에 걸쳐 있으면 포함하도록 하여 일관성을 유지한다. 
+충돌 쿼리와 마찬가지로 캐릭터의 원점뿐만 아니라 캡슐이 범위에 걸쳐 있으면 포함하도록 하여 일관성을 유지한다. 
 
 [`UURCollisionBlueprintLibrary::GetDamageableActors`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/BlueprintLibrary/URCollisionBlueprintLibrary.cpp#L152)
 
@@ -150,7 +150,7 @@ GE를 적용한 이후 호출되는 `UURHealthSet::PostGameplayEffectExecute`에
 
 [`AURGamePlayerController::ClientDamageTakenFeedback`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Player/URGamePlayerController.cpp#L197)
 
-모든 플레이어가 아닌 로컬 플레이어가 타격/피격 했을 경우에만 발생하는 피드백을 처리하기 위해 GameplayCue가 아닌 별도의 클라이언트 RPC를 사용했다.
+모든 플레이어가 아닌 로컬 플레이어가 타격/피격했을 경우에만 발생하는 피드백을 처리하기 위해 GameplayCue가 아닌 별도의 클라이언트 RPC를 사용했다.
 
 대미지 표시와, 이름표의 상태를 갱신한다.
 
