@@ -24,7 +24,7 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
 3. 보스 전투
 4. 승리 후 로비로 복귀
 
-## 개별 설명 문서
+## 상세 설명 문서
 
 [`GameplayArchitecture.md`](https://github.com/expx2/UnrealRPGProject/blob/main/Docs/GameplayArchitecture.md): 게임 플레이에서의 구조를 전반적으로 설명합니다.
 
