@@ -27,7 +27,9 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
 ## 개별 설명 문서
 
 [`GameplayArchitecture.md`](https://github.com/expx2/UnrealRPGProject/blob/main/Docs/GameplayArchitecture.md): 게임 플레이에서의 구조를 전반적으로 설명합니다.
+
 [`Combat.md`](https://github.com/expx2/UnrealRPGProject/blob/main/Docs/Combat.md): 전투 시스템에 대해 설명합니다.
+
 [`ActiveAbility.md`](https://github.com/expx2/UnrealRPGProject/blob/main/Docs/ActiveAbility.md): 데이터 기반의 액션 조합형 액티브 스킬에 대해 설명합니다.
 
 ## 주요 기능
@@ -53,7 +55,6 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
   - 입력 시스템과 PlayerState에서의 ASC 관리 [상세 설명 문서 - GameplayArchitecture.md](https://github.com/expx2/UnrealRPGProject/blob/main/Docs/GameplayArchitecture.md)
 
 - 적 캐릭터
-
   - [AI 행동 트리]("https://github.com/user-attachments/assets/198ca6ce-403c-4615-b2a5-3fb3214c9fe3")
     - 순찰: 일정 거리를 순찰하며 선공 적일 경우 범위 내 적을 검사한다.
     - 전투
@@ -61,7 +62,6 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
       - 액티브 어빌리티 활성화: 우선순위대로 검사하여 사용 가능한 어빌리티를 활성화한다.
         > 어빌리티 활성화 순서를 설정하는 [`UAIAbilityOrderSet`]가 있을 경우 순서대로 사용한다.
     - 귀환: 본인이 초기 위치에서 일정 이상 거리를 벗어나거나 전투 중 대상이 없어지면 상태를 초기화하고 초기 위치로 이동한다.
-  
   
   - 어그로 관리
   
@@ -79,6 +79,7 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
 ### 게임 플레이
 
 - 타 플레이어 관전 및 전멸 시 리스폰 [상세 설명 문서 - GameplayArchitecture.md]("https://github.com/expx2/UnrealRPGProject/blob/main/Docs/GameplayArchitecture.md")
+
 - 레벨 시퀀스
 
 ### UI (UMG)
