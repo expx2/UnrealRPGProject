@@ -47,10 +47,10 @@ void UAbilityTask_AbilityActionTimeline::TickTask(float DeltaTime)
 
 void UAbilityTask_AbilityActionTimeline::OnDestroy(bool bInOwnerFinished)
 {
+	bIsFinished = true;
+	
 	UnblockMovement();
 	UnblockRotation();
-	
-	bIsFinished = true;
 	
 	Super::OnDestroy(bInOwnerFinished);
 }

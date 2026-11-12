@@ -148,13 +148,15 @@ void UURAggroComponent::HandleDamageTaken(AActor* Instigator, AActor* Causer, fl
 	
 	UR_LOG(LogUR, Log, TEXT("DamageTaken from %s | %s"), *Instigator->GetName(), *Causer->GetName());
 	float Addition = FMath::Max(Magnitude, 1.f);
-	UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Instigator);
-	if (ASC)
+	if (UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Instigator))
 	{
 		// 플레이어의 Instigator는 Pawn 대신 PlayerState일 수 있다.
 		// Causer로 하면 HitTraceActor같이 생성된 액터에서 ASC가 아닌 HitTraceActor가 저장됨.
 		Instigator = ASC->GetAvatarActor();
-		Addition *= ASC->GetSet<UURCombatSet>()->GetAggroMultiplier();
+		if (const UURCombatSet* CombatSet = ASC->GetSet<UURCombatSet>())
+		{
+			Addition *= CombatSet->GetAggroMultiplier();
+		}
 	}
 	
 	// OwnerActor가 아닌 

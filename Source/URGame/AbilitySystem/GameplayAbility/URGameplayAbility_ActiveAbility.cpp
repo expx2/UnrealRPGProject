@@ -566,7 +566,6 @@ void UURGameplayAbility_ActiveAbility::ActivateAbility(
 	const FGameplayAbilityActivationInfo ActivationInfo,
 	const FGameplayEventData* TriggerEventData)
 {
-	
 	if (TriggerEventData == nullptr)
 	{
 		EndAbilityAsFailed(URGameplayTags::TAG_Ability_Fail_Undefined);
@@ -594,38 +593,39 @@ void UURGameplayAbility_ActiveAbility::ActivateAbility(
 	{
 		check(GroundTraceClass);
 
-		AGameplayAbilityTargetActor_GroundTrace* TargetActor =
-						GetWorld()->SpawnActorDeferred<AGameplayAbilityTargetActor_GroundTrace>(
-							GroundTraceClass.Get(),
-							FTransform::Identity,
-							GetOwningActorFromActorInfo(),
-							nullptr, // GetAvatarActorFromActorInfo(),
-							ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
-
-		TargetActor->PrimaryPC = GetActorInfo().PlayerController.Get();
-
-		TargetActor->MaxRange = UseRange;
-		TargetActor->TraceProfile = FCollisionProfileName("GroundTrace");
-		TargetActor->bTraceAffectsAimPitch = true;
-		TargetActor->StartLocation = MakeTargetLocationInfoFromOwnerActor();
-		if (IsValid(ReticleClass))
-		{
-			TargetActor->ReticleClass = ReticleClass;
-			TargetActor->ReticleParams = FWorldReticleParameters(FVector(ReticleScale));
-		}
-
-		TargetActor->FinishSpawning(FTransform::Identity);
-
 		UAbilityTask_WaitTargetData* WaitTargetData =
-			UAbilityTask_WaitTargetData::WaitTargetDataUsingActor(
+			UAbilityTask_WaitTargetData::WaitTargetData(
 				this,
 				NAME_None,
 				EGameplayTargetingConfirmation::UserConfirmed,
-				TargetActor);
+				GroundTraceClass.Get());
 
 		WaitTargetData->ValidData.AddUniqueDynamic(this, &ThisClass::ValidateRangeTargetData);
 		WaitTargetData->Cancelled.AddUniqueDynamic(this, &ThisClass::HandleTargetDataCancelled);
 		WaitTargetData->ReadyForActivation();
+
+		if (WaitTargetData->IsFinished())
+		{
+			return;
+		}
+
+		AGameplayAbilityTargetActor* SpawnedActor = nullptr;
+		if (WaitTargetData->BeginSpawningActor(this, GroundTraceClass.Get(), SpawnedActor))
+		{
+			AGameplayAbilityTargetActor_GroundTrace* TargetActor = CastChecked<AGameplayAbilityTargetActor_GroundTrace>(SpawnedActor);
+			TargetActor->SetOwner(GetOwningActorFromActorInfo());
+			TargetActor->MaxRange = UseRange;
+			TargetActor->TraceProfile = FCollisionProfileName("GroundTrace");
+			TargetActor->bTraceAffectsAimPitch = true;
+			TargetActor->StartLocation = MakeTargetLocationInfoFromOwnerActor();
+			if (IsValid(ReticleClass))
+			{
+				TargetActor->ReticleClass = ReticleClass;
+				TargetActor->ReticleParams = FWorldReticleParameters(FVector(ReticleScale));
+			}
+
+			WaitTargetData->FinishSpawningActor(this, TargetActor);
+		}
 		return;
 	}
 	
