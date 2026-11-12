@@ -8,8 +8,6 @@
 실제 타격 판정과 피해 효과 적용은 항상 **`Authority`가 있는 서버**에서 진행하며, 
 클라이언트는 복제된 체력과 `GameplayCue`, 클라이언트 RPC를 통해 결과를 표시한다.
 
-지연 보정은 [`액티브 어빌리티 - 네트워크 지연과 프레임 지연 보정`](https://github.com/expx2/UnrealRPGProject/blob/main/Docs/ActiveAbility.md#네트워크-지연과-프레임-지연-보정) 문서에서 다룬다
-
 ## Damageable Interface
 
 [`IURDamageableInterface`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Interface/URDamageableInterface.h) 인터페이스를 구현한 액터만을 전투 및 타격 대상으로 사용한다.
