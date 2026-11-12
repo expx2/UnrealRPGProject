@@ -24,6 +24,12 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
 3. 보스 전투
 4. 승리 후 로비로 복귀
 
+## 개별 설명 문서
+
+[`GameplayArchitecture.md`](링크): 게임 플레이에서의 구조를 전반적으로 설명합니다.
+[`Combat.md`](링크): 전투 시스템에 대해 설명합니다.
+[`ActiveAbility.md`](링크): 데이터 기반의 액션 조합형 액티브 스킬에 대해 설명합니다.
+
 ## 주요 기능
 
 ### 전투 시스템
@@ -57,6 +63,7 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
 - WidgetComponent [`UURActorDisplayWidgetComponent`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/UI/ActorDisplay/URActorDisplayWidgetComponent.h)
 - 대미지 플로터 풀링 [`UURFloatingDamageLayerWidget`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/UI/FloatingDamage/URFloatingDamageLayerWidget.h)
 - BP/C++ 구현
+
 
 ### MISC
 
