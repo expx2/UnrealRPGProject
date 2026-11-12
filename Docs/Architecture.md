@@ -17,10 +17,10 @@
 
 ```mermaid
 flowchart LR
-  GI["GameInstnace<br/>캐릭터 ID 저장"] --> |레벨 이동| GM["GameMode::OnPostLogin"]
+  GI["GameInstnace<br/>캐릭터 ID 저장"] -->|레벨 이동| GM["GameMode::OnPostLogin"]
   GM --> S_PC["서버 PlayerController<br>"]
-  S_PC --> |클라이언트 RPC| C_PC["클라이언트 PlayerController<br/>GameInstance에서 캐릭터 ID 가져옴"]
-  C_PC --> |서버 RPC| S_PC2 ["서버 PlayerController<br/>검증 후 `RestatPlayer`"]
+  S_PC -->|클라이언트 RPC| C_PC["클라이언트 PlayerController<br/>GameInstance에서 캐릭터 ID 가져옴"]
+  C_PC -->|서버 RPC| S_PC2 ["서버 PlayerController<br/>검증 후 `RestatPlayer`"]
 ```
 
 로비에서 선택한 캐릭터 ID는 레벨 이동 후에도 유지할 수 있도록 `GameInstance`에 저장한다.
