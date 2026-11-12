@@ -1,4 +1,4 @@
-# ProjectUR
+# Unreal RPG Project
 
 언리얼 엔진 5.7로 개발한 멀티 플레이 RPG 게임입니다.
 
