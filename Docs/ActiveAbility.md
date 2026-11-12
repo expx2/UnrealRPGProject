@@ -104,7 +104,7 @@ B의 사용 마나는 충분하더라도
 
 ## 액션
 
-액션은 어빌리티의 동작과 효과를 구성하는 데이터가 되는 구조이다. 
+액션은 어빌리티의 동작과 효과를 구성하는 데이터로 데이터 기반 액티브 어빌리티의 핵심이 되는 시스템이다.
 
 모든 액션은 `FURAbilityActionBase`를 상속받으며 `TInstancedStruct` 배열로 BP에서 조합해 하나의 어빌리티를 구성한다.
 
@@ -114,7 +114,7 @@ B의 사용 마나는 충분하더라도
 
 어빌리티는 [`UAbilityTask_AbilityActionTimeline`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/AbilitySystem/AbilityTask/AbilityTask_AbilityActionTimeline.h) 어빌리티 태스크를 실행한다.
 
-`UAbilityTask_AbilityActionTimeline`은 조합한 액션을 설정된 시작 시간에 맞춰 병렬적으로 실행한다.
+`UAbilityTask_AbilityActionTimeline`은 액션을 설정된 시작 시간에 맞춰 병렬적으로 실행한다.
 
 `FURAbilityActionBase`는 실행 결과를 반환하고 비동기 액션은 `UAbilityActionTask`를 함께 반환한다. 타임라인은 이 결과와 태스크를 통해 액션의 진행 상태를 관리한다.
 
