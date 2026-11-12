@@ -13,6 +13,7 @@ sequenceDiagram
     participant GI as GameInstance (클라이언트)
 
     Note over GI: 로비에서 선택한 캐릭터 저장
+    Note over GM: OnPostLogin
     GM->>SPC: 캐릭터 ID 설정 요청
     SPC->>CPC: 캐릭터 ID 요청 (Client RPC)
     CPC->>GI: 캐릭터 ID 조회
