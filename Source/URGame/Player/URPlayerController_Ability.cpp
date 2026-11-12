@@ -354,8 +354,8 @@ void AURGamePlayerController::ClientKillPendingAbility_Implementation(
 	
 	/*
 	 * Note: Handle만을 기준으로 검사하기 때문에, 같은 어빌리티일 경우 지연된 실패 RPC가 새 요청을 취소할 수 있음.
-	 * RequestID를 추가해 개선 가능하지만, 지연 시간 동안 조건이 변경될 가능성이 크지 않아 이전 요청 실패 시 현재 요청도 실패하도록 유지함.
-	 * 개선 시 지연 시간 동안 계속 새 요청을 할 경우 실패가 안 될 가능성 있음.
+	 * RequestID를 추가해 개선 가능하지만, 지연 시간 동안 조건이 변경될 가능성이 크지 않고, 개선 시 지연 시간 동안 계속 새 요청을 하면 실패가 안 될 가능성 있음
+	 * => 이전 요청 실패 시 현재 요청도 실패하도록 유지함.
 	 */
 	if (UAbilitySystemComponent* ASC = PendingAbility.AbilitySystemComponent.Get())
 	{

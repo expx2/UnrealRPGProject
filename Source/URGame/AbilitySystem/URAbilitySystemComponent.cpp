@@ -380,6 +380,7 @@ void UURAbilitySystemComponent::InternalServerTryActivateAbility(
 		{
 			// 타겟 데이터가 있어야만 함. 
 			ClientActivateAbilityFailed(AbilityToActivate, PredictionKey.Current);
+			ActivatingPredictionKeyOnServer = 0;
 			return;
 		}
 		

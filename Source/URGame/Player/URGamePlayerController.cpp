@@ -165,9 +165,9 @@ void AURGamePlayerController::SubmitCharacterCode_Implementation(const FName InC
 	{
 		return;
 	}
-	
-	bIsWaitingCharacterCode = false;
 
+	bIsWaitingCharacterCode = false;
+	
 	AURGamePlayerState* PS = GetPlayerState<AURGamePlayerState>();
 	AURGameGameMode* GM = GetWorld()->GetAuthGameMode<AURGameGameMode>();
 	AURGameGameState* GS = GetWorld()->GetGameState<AURGameGameState>();
