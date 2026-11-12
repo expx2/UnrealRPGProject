@@ -55,7 +55,7 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
   - 입력 시스템과 PlayerState에서의 ASC 관리 [상세 설명 문서 - GameplayArchitecture.md](https://github.com/expx2/UnrealRPGProject/blob/main/Docs/GameplayArchitecture.md)
 
 - 적 캐릭터
-  - [AI 행동 트리]("https://github.com/user-attachments/assets/198ca6ce-403c-4615-b2a5-3fb3214c9fe3")
+  - [AI 행동 트리](https://github.com/user-attachments/assets/198ca6ce-403c-4615-b2a5-3fb3214c9fe3)
     - 순찰: 일정 거리를 순찰하며 선공 적일 경우 범위 내 적을 검사한다.
     - 전투
       - 추적: 보유한 액티브 어빌리티 중 사용 가능 거리가 가장 짧은 액티브 어빌리티의 사용 가능 거리까지 이동하며 사용 가능한 어빌리티가 있는지 검사한다.
@@ -78,7 +78,7 @@ GAS(Gameplay Ability System)를 사용한 스킬 및 효과, 상태 관리 시�
 
 ### 게임 플레이
 
-- 타 플레이어 관전 및 전멸 시 리스폰 [상세 설명 문서 - GameplayArchitecture.md]("https://github.com/expx2/UnrealRPGProject/blob/main/Docs/GameplayArchitecture.md")
+- 타 플레이어 관전 및 전멸 시 리스폰 [상세 설명 문서 - GameplayArchitecture.md](https://github.com/expx2/UnrealRPGProject/blob/main/Docs/GameplayArchitecture.md)
 
 - 레벨 시퀀스
 
