@@ -13,6 +13,7 @@ sequenceDiagram
     participant GI as GameInstance (클라이언트)
 
     Note over GI: 로비에서 선택한 캐릭터 저장
+    Note over GM: OnPostLogin
     GM->>SPC: 캐릭터 ID 설정 요청
     SPC->>CPC: 캐릭터 ID 요청 (Client RPC)
     CPC->>GI: 캐릭터 ID 조회
@@ -26,25 +27,25 @@ sequenceDiagram
     Note over GM: 캐릭터 ID에 대응하는 클래스 조회하여 생성
 ```
 
-로비에서 선택한 캐릭터 ID는 레벨 이동 후에도 유지할 수 있도록 클라이언트의 `GameInstance`에 저장한다.
+로비에서 선택한 캐릭터 ID는 레벨 이동 후에도 유지할 수 있도록 클라이언트의 `UURGameInstance`에 저장한다.
 
-`GameMode`는 `AGameModeBase::OnPostLogin`를 오버라이드 해 플레이어 로그인 후
-`PlayerController`에 캐릭터 ID를 요청한다.
+`AURGameGameMode`는 `AGameModeBase::OnPostLogin`를 오버라이드 해 플레이어 로그인 후
+`AURGamePlayerController`에 캐릭터 ID를 요청한다.
 
-`PlayerController`는 클라이언트 RPC로 캐릭터 코드를 요청하고,
-수신하면 `GameInstance`에 저장된 캐릭터 ID를 서버 RPC로 서버에 전달한다.
+`AURGamePlayerController`는 클라이언트 RPC로 캐릭터 코드를 요청하고,
+수신하면 `UURGameInstance`에 저장된 캐릭터 ID를 서버 RPC로 서버에 전달한다.
 
-서버에서는 검증 후 `PlayerState`에 저장하고 `AGameModeBase::RestartPlayer`를 호출해 캐릭터를 생성한다. 
+서버에서는 검증 후 `AURGamePlayerState`에 저장하고 `AGameModeBase::RestartPlayer`를 호출해 캐릭터를 생성한다. 
 
 #### 스크립트 
 - [`AURGameGameMode`](링크): 캐릭터 ID 요청
 - [`AURGamePlayerController`](링크): 캐릭터 ID 송수신 및 검증
 - [`AURGamePlayerState`](링크): 서버에서 캐릭터 ID 저장
-- [`AURGameInstance`](링크): 클라이언트에서 선택한 캐릭터 ID 저장
+- [`UURGameInstance`](링크): 클라이언트에서 선택한 캐릭터 ID 저장
 
 ## 캐릭터와 GAS의 소유 관계
 
-플레이어는 `AbilitySystemComponent`(이하 ASC)을 PlayerState에서 소유한다.
+플레이어는 `AbilitySystemComponent`(이하 ASC)을 `PlayerState`에서 소유한다.
 
 적 캐릭터는 캐릭터가 ASC를 소유하여 캐릭터와 같은 수명을 가진다.
 
@@ -83,7 +84,7 @@ sequenceDiagram
 3. `UURGameplayAbilitySet`에서 `AbilitySystemComponent`에 어빌리티를 등록할 때 `GameplayAbilitySpec`의 `InputID`에 `EAbilityInputBinds`를 연결한다.
 
 #### 스크립트
-- [`UURCharacterInputComponent`](링크): InputComponent를 받아 입력을 바인딩하고 그에 따른 행동 구현을 담당한다.
+- [`UURCharacterInputComponent`](링크): `UURInputComponent`를 받아 입력을 바인딩하고 그에 따른 행동 구현을 담당한다.
 - [`UURInputComponent`](링크): `UEnhancedInputComponent` 상속 받아 Bind 함수를 제공한다.
 - [`UURInputMappingSet`](링크): `InputAction`에 따른 `EAbilityInputBinds`를 관리한다.
 - [`UURGameplayAbilitySet`](링크): 어빌리티와 `EAbilityInputBinds`을 묶어 관리하고, `AbilitySystemComponent`에 어빌리티를 등록한다.
@@ -106,7 +107,7 @@ flowchart LR
     E -->|생존자 있음| G[사망한 플레이어의 관전자 관전 대상 변경]
 ```
 
-`GameMode`는 전멸 여부를 판정하고, `GameState`에 전멸 판정 결과 값을 저장하고 클라이언트에 복제한다.
+`AURGameGameMode`는 전멸 여부를 판정하고, `AURGameGameState`에 전멸 판정 결과 값을 저장하고 클라이언트에 복제한다.
 
 전멸 시 플레이어 전체 리스폰을 진행하고 생존한 플레이어가 있을 경우 관전을 할 수 있도록 대기한다.
 
@@ -124,18 +125,3 @@ flowchart LR
 - [`AURPlayerCharacter`](링크): 로컬 연출과 UI 표시, `AURGameMode::OnPlayerDied` 호출
 - [`AURGameGameMode`](링크): 플레이어 전멸 판정, 리스폰 관리 및 실행
 - [`AURGameGameState`](링크): 전멸 여부 값 저장 및 값 변경 이벤트 발행
-
-## UI (UMG)
-
-로컬 플레이어 서브 시스템 [`UURUISubsystem`](링크)를 사용해 팝업 위젯 생성/제거, 공통 UI 기능 등 UI 매니저로서의 역할을 담당한다. 
-
-> UI 수가 많지 않고 팝업 연관 관계가 없어 최소한의 기능만 개발함. 
- 
-`RootWidget`을 두어 공통 UI(토스트 메세지 등)를 한 곳에서만 관리하고, 
-전체 UI의 레이어를 관리할 수 있도록 했다.
-
-`AHUD`를 해당 레벨의 전용 UI 매니저 역할로 사용해 UI 관리 책임을 분리하고, 유지보수성과 확장성을 높였다.
-
-#### 스크립트
-- [`UURUISubsystem`](링크): 공통 UI 기능과 `RootWidget`, 레이어 관리
-- [`AURGameHUD`](링크): Game레벨에서만 사용하는 UI 기능
