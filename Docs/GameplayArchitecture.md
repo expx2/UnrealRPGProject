@@ -37,7 +37,7 @@ sequenceDiagram
 
 서버에서는 검증 후 `AURGamePlayerState`에 저장하고 `AGameModeBase::RestartPlayer`를 호출해 캐릭터를 생성한다. 
 
-#### 스크립트 
+**스크립트**
 - [`AURGameGameMode`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/GameModes/URGameGameMode.h): 캐릭터 ID 요청
 - [`AURGamePlayerController`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Player/URGamePlayerController.h): 캐릭터 ID 송수신 및 검증
 - [`AURGamePlayerState`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Player/URGamePlayerState.h): 서버에서 캐릭터 ID 저장
@@ -66,7 +66,7 @@ sequenceDiagram
 > 따라서 두 값 중 하나를 그대로 사용하면 실제 공격자 캐릭터가 아닌 `PlayerState` 혹은 투사체를 공격자로 인식할 수 있다.  
 > =>`UURAggroComponent`에선 Instigator가 ASC를 가지고 있을 경우 AvatarActor인 실제 공격 캐릭터를 구해 처리한다.
 
-#### 스크립트
+**스크립트**
 - [`AURGamePlayerState`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Player/URGamePlayerState.h): 플레이어의 ASC 및 `AttributeSet` 소유
 - [`AURASCCharacter`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Character/URASCCharacter.h): 플레이어와 적 캐릭터의 공통 부모로 ASC를 가진 캐릭터 베이스
 - [`AURPlayerCharacter`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Character/URPlayerCharacter.h): `PlayerState`의 ASC 연결
@@ -78,12 +78,12 @@ sequenceDiagram
 
 [`UURCharacterInputComponent`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Character/URCharacterInputComponent.h)를 독립된 컴포넌트로 두어, 캐릭터 클래스와 역할을 분리한다. `EnhancedInputComponent`에 입력을 바인딩하고 그에 따른 행동 구현을 담당한다.
 
-#### 어빌리티 바인딩 흐름
+**어빌리티 바인딩 흐름**
 1. `EAbilityInputBinds`로 어빌리티 실행 입력을 정의한다.
 2. `UURCharacterInputComponent`에서 `UURInputMappingSet`을 통해 `InputAction`에 따른 `EAbilityInputBinds`를 바인딩한다.
 3. `UURGameplayAbilitySet`에서 `AbilitySystemComponent`에 어빌리티를 등록할 때 `GameplayAbilitySpec`의 `InputID`에 `EAbilityInputBinds`를 연결한다.
 
-#### 스크립트
+**스크립트**
 - [`UURCharacterInputComponent`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Character/URCharacterInputComponent.h): `UURInputComponent`를 받아 입력을 바인딩하고 그에 따른 행동 구현을 담당한다.
 - [`UURInputComponent`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Input/URInputComponent.h): `UEnhancedInputComponent` 상속받아 Bind 함수를 제공한다.
 - [`UURInputMappingSet`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Input/URInputMappingSet.h): `InputAction`에 따른 `EAbilityInputBinds`를 관리한다.
@@ -115,11 +115,11 @@ flowchart LR
 
 사망 UI에서 관전을 선택하면 서버에서 사망 및 전멸 상태를 검사한 뒤 관전 상태로 전환하여 생존한 플레이어를 관전한다.
 
-#### 향후 개선 과제
+**향후 개선 과제**
 - 연결이 끊긴 캐릭터는 제거하지 않고 재연결 시 사용 (캐릭터뿐만 아니라 `PlayerState`가 관리하는 ASC를 유지해야 한다.)
 - 입장 중인 플레이어를 포함한 전멸 판정 고도화 혹은 난입한 플레이어 대기 
 
-#### 스크립트
+**스크립트**
 - [`UURHealthComponent`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Character/URHealthComponent.h): `UURHealthSet` 연결하여 사망 이벤트 발행
 - [`AURASCCharacter`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Character/URASCCharacter.h): 공통 사망 처리
 - [`AURPlayerCharacter`](https://github.com/expx2/UnrealRPGProject/blob/main/Source/URGame/Character/URPlayerCharacter.h): 로컬 연출과 UI 표시, `AURGameGameMode::OnPlayerDied` 호출
